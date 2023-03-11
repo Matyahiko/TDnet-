@@ -4,7 +4,6 @@ import json
 import random
 
 
-#Xbrlつき修正決算情報を弾く-未
 def get_url(URL):
     print("A")
     res = requests.get(URL)
@@ -23,14 +22,14 @@ def get_url(URL):
     print(extracted_data)
  
     
-    with open("API_downloader\\untreated_folder\\extracted_data.json", "w") as f:
+    with open("###################\\extracted_data.json", "w") as f:
         json.dump(extracted_data, f, indent=4)
         
    
     return 0
 
 def get_pdf():
-      with open("API_downloader\\untreated_folder\\extracted_data.json", "r") as f:
+      with open("##################\\extracted_data.json", "r") as f:
         data = json.load(f)
         total = len(data)
         count = 0
@@ -48,8 +47,10 @@ def get_pdf():
              name = date[0] + "_" + d["company_code"]
              with open("row_pdf\\" + name + ".pdf", "wb") as f:
                 f.write(pdf.content)
+                
+                return 0
     
-    return 0
+    
     
 
 
