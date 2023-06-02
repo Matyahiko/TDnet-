@@ -1,2 +1,4 @@
 requests
-PyPDF2
+pypdf 
+schedule
+pycryptodome
