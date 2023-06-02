@@ -1,0 +1,2 @@
+ERROR:root:Failed to download https://webapi.yanoshin.jp/rd.php?https://www.release.tdnet.info/inbs/140120230602594386.pdf: [Errno 2] No such file or directory: 'row_pdf/2023-06-02_24020.pdf'
+ERROR:root:Failed to download https://webapi.yanoshin.jp/rd.php?https://www.release.tdnet.info/inbs/140120230602594386.pdf: [Errno 2] No such file or directory: 'row_pdf/2023-06-02_24020.pdf'
