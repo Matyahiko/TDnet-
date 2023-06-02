@@ -5,6 +5,7 @@ import random
 import os
 from pypdf import PdfReader
 import schedule
+from tqdm import tqdm
 
 class TdnetDownloader:
     def __init__(self, max_retries=5):
@@ -31,7 +32,7 @@ class TdnetDownloader:
 
     def download_pdf(self, data):
         total = len(data)
-        count = 0
+        progress_bar = tqdm(total=total, desc='Downloading PDFs', unit='file')
         failed_downloads = []
 
         for d in data:
@@ -53,9 +54,7 @@ class TdnetDownloader:
 
                         if self.validate_pdf(file_path):
                             success = True
-                            count += 1
-                            progress = int(count / total * 100)
-                            print(f"Progress: {progress}%")
+                            progress_bar.update(1)
                         else:
                             retries += 1
                             os.remove(file_path)  # ダウンロードした壊れたファイルを削除
@@ -67,6 +66,15 @@ class TdnetDownloader:
 
                 if not success:
                     failed_downloads.append(d)
+
+        progress_bar.close()
+
+        # Save the failed downloads
+        if failed_downloads:
+            with open("path_to_failed_downloads.json", "w") as f:
+                json.dump(failed_downloads, f, indent=4)
+
+        return failed_downloads
 
         # Save the failed downloads
         if failed_downloads:
@@ -125,6 +133,8 @@ if __name__ == "__main__":
 """
 downloader = TdnetDownloader(max_retries=5)
 schedule.every().week.do(downloader.run())
+#確認用
+downloader.run()
 
 while True:
     schedule.run_pending()
