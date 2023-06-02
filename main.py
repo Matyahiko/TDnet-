@@ -117,15 +117,15 @@ class TdnetDownloader:
 
         # Retry failed downloads
         self.retry_failed_downloads()
-
+"""
 if __name__ == "__main__":
     downloader = TdnetDownloader(max_retries=5)
     downloader.run()
     
 """
+downloader = TdnetDownloader(max_retries=5)
 schedule.every().week.do(downloader.run())
 
 while True:
     schedule.run_pending()
     time.sleep(1)
-"""
