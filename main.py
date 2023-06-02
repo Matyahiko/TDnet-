@@ -3,7 +3,7 @@ import requests
 import json
 import random
 import os
-from PyPDF2 import PdfFileReader
+from pypdf import PdfReader
 import schedule
 
 class TdnetDownloader:
@@ -46,7 +46,7 @@ class TdnetDownloader:
 
                         date = d["pubdate"].split(" ")
                         name = date[0] + "_" + d["company_code"]
-                        file_path = f"row_pdf/{name}.pdf"
+                        file_path = f"rowdata/{name}.pdf"
 
                         with open(file_path, "wb") as f:
                             f.write(pdf.content)
@@ -78,10 +78,11 @@ class TdnetDownloader:
     def validate_pdf(self, file_path):
         try:
             with open(file_path, "rb") as f:
-                pdf = PdfFileReader(f)
-                num_pages = pdf.getNumPages()
-                return num_pages > 0
-        except Exception:
+             pdf = PdfReader(f)
+             num_pages = len(pdf.pages)
+            return num_pages > 0
+        except Exception as e:
+            print(f"Error validating PDF at {file_path}: {e}")
             return False
 
     def retry_failed_downloads(self):
@@ -117,10 +118,14 @@ class TdnetDownloader:
         # Retry failed downloads
         self.retry_failed_downloads()
 
-
-downloader = TdnetDownloader(max_retries=5)
-schedule.every().week.do(downloader.run)
+if __name__ == "__main__":
+    downloader = TdnetDownloader(max_retries=5)
+    downloader.run()
+    
+"""
+schedule.every().week.do(downloader.run())
 
 while True:
     schedule.run_pending()
     time.sleep(1)
+"""
