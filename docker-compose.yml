@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  downloader:
+    build:
+      context: .
+      dockerfile: dockerfile
+      args:
+        - HTTP_PROXY=${HTTP_PROXY}
+        - HTTPS_PROXY=${HTTPS_PROXY}
+    container_name: miidas
+    environment:
+      - http_proxy=$HTTP_PROXY
+      - https_proxy=$HTTPS_PROXY
+      - TZ=Asia/Tokyo
+    env_file:
+      - .env
+    volumes:
+      - .:/root/src
+    working_dir: /root/src
+    tty: true
+    restart: always
