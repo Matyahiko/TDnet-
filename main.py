@@ -6,6 +6,9 @@ import os
 from pypdf import PdfReader
 import schedule
 from tqdm import tqdm
+import logging
+
+logging.basicConfig(filename='download.log', level=logging.INFO)
 
 class TdnetDownloader:
     def __init__(self, max_retries=5):
@@ -30,59 +33,52 @@ class TdnetDownloader:
 
         return extracted_data
 
-    def download_pdf(self, data):
-        total = len(data)
-        progress_bar = tqdm(total=total, desc='Downloading PDFs', unit='file')
-        failed_downloads = []
+def download_pdf(self, data):
+    total = len(data)
+    progress_bar = tqdm(total=total, desc='Downloading PDFs', unit='file')
+    failed_downloads = []
 
-        for d in data:
-            if d["company_code"][-1] == "0":
-                retries = 0
-                success = False
+    for d in data:
+        if d["company_code"][-1] == "0":
+            retries = 0
+            success = False
 
-                while retries < self.max_retries and not success:
-                    try:
-                        pdf = requests.get(d["document_url"])
-                        time.sleep(random.randint(6, 15))
+            while retries < self.max_retries and not success:
+                try:
+                    pdf = requests.get(d["document_url"])
+                    time.sleep(random.randint(6, 15))
 
-                        date = d["pubdate"].split(" ")
-                        name = date[0] + "_" + d["company_code"]
-                        file_path = f"rawdata/{name}.pdf"
+                    date = d["pubdate"].split(" ")
+                    name = date[0] + "_" + d["company_code"]
+                    file_path = f"rawdata/{name}.pdf"
 
-                        with open(file_path, "wb") as f:
-                            f.write(pdf.content)
+                    with open(file_path, "wb") as f:
+                        f.write(pdf.content)
 
-                        if self.validate_pdf(file_path):
-                            success = True
-                            progress_bar.update(1)
-                        else:
-                            retries += 1
-                            os.remove(file_path)  # ダウンロードした壊れたファイルを削除
-                            print(f"Failed to validate {file_path}. Retrying download.")
-
-                    except Exception as e:
-                        print(f"Failed to download {d['document_url']}: {e}")
+                    if self.validate_pdf(file_path):
+                        success = True
+                        progress_bar.update(1)
+                        logging.info(f"Downloaded {file_path}.")
+                    else:
                         retries += 1
+                        os.remove(file_path)  # ダウンロードした壊れたファイルを削除
+                        logging.warning(f"Failed to validate {file_path}. Retrying download.")
 
-                if not success:
-                    failed_downloads.append(d)
+                except Exception as e:
+                    logging.error(f"Failed to download {d['document_url']}: {e}")
+                    retries += 1
 
-        progress_bar.close()
+            if not success:
+                failed_downloads.append(d)
 
-        # Save the failed downloads
-        if failed_downloads:
-            with open("path_to_failed_downloads.json", "w") as f:
-                json.dump(failed_downloads, f, indent=4)
+    progress_bar.close()
 
-        return failed_downloads
+    # Save the failed downloads
+    if failed_downloads:
+        with open("path_to_failed_downloads.json", "w") as f:
+            json.dump(failed_downloads, f, indent=4)
 
-        # Save the failed downloads
-        if failed_downloads:
-            with open("path_to_failed_downloads.json", "w") as f:
-                json.dump(failed_downloads, f, indent=4)
-
-        return failed_downloads
-
+    return failed_downloads
     def validate_pdf(self, file_path):
         try:
             with open(file_path, "rb") as f:
