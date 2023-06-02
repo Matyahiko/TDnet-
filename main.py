@@ -50,7 +50,7 @@ class TdnetDownloader:
 
                         date = d["pubdate"].split(" ")
                         name = date[0] + "_" + d["company_code"]
-                        file_path = f"row_pdf/{name}.pdf"
+                        file_path = f"rawdata/{name}.pdf"
 
                         with open(file_path, "wb") as f:
                             f.write(pdf.content)
