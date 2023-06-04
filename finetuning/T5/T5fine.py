@@ -128,3 +128,4 @@ if __name__ == "__main__":
     model.model.save_pretrained(MODEL_DIR)
 
     del model
+    
