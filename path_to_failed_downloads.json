@@ -1,0 +1,22 @@
+[
+    {
+        "pubdate": "2023-05-12 13:00:00",
+        "company_code": "13320",
+        "document_url": "https://webapi.yanoshin.jp/rd.php?https://www.release.tdnet.info/inbs/140120230511567137.pdf"
+    },
+    {
+        "pubdate": "2023-05-11 18:45:00",
+        "company_code": "24020",
+        "document_url": "https://webapi.yanoshin.jp/rd.php?https://www.release.tdnet.info/inbs/140120230511567402.pdf"
+    },
+    {
+        "pubdate": "2023-05-11 18:45:00",
+        "company_code": "24020",
+        "document_url": "https://webapi.yanoshin.jp/rd.php?https://www.release.tdnet.info/inbs/"
+    },
+    {
+        "pubdate": "2023-05-11 15:00:00",
+        "company_code": "67530",
+        "document_url": "https://webapi.yanoshin.jp/rd.php?https://www.release.tdnet.info/inbs/140120230511565462.pdf"
+    }
+]
