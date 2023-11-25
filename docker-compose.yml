@@ -16,6 +16,7 @@ services:
       - .env
     volumes:
       - .:/root/src
+      - ${NAS_PATH}:/root/src/nas
     working_dir: /root/src
     tty: true
     restart: always

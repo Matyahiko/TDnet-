@@ -55,7 +55,7 @@ class TdnetDownloader:
 
                         date = d["pubdate"].split(" ")
                         name = date[0] + "_" + d["company_code"]
-                        file_path = f"rawdata/{name}.pdf"
+                        file_path = f"../nas/tdnet/{name}.pdf"
 
                         # ダウンロードした内容を保存
                         with open(file_path, "wb") as f:
@@ -134,12 +134,3 @@ if __name__ == "__main__":
     downloader = TdnetDownloader(max_retries=5)
     downloader.run()
 
-# タスクスケジューラで毎週実行
-downloader = TdnetDownloader(max_retries=5)
-schedule.every().week.do(downloader.run)
-# 確認用に即時実行
-downloader.run()
-
-while True:
-    schedule.run_pending()
-    time.sleep(1)

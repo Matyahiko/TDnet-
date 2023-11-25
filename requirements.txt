@@ -3,3 +3,9 @@ pypdf
 schedule
 pycryptodome
 tqdm
+smbprotocol
+python-dotenv
+pandas
+newspaper3k
+selenium
+matplotlib

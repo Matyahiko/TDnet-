@@ -3,3 +3,7 @@ url/
 .env
 path_to_extracted_data.json
 download.log
+path_to_extracted_data.json
+raw_data/
+nas
+```
